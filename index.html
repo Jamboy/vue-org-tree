@@ -17,10 +17,11 @@
     }
   </style>
 </head>
+
 <body>
   <div id="app">
     <div>
-      <vue2-org-tree :data="tree" collapsable :label-width="90" :label-class-name="labelClass"
+      <vue2-org-tree :data="tree" expandAll horizontal collapsable :label-width="90" :label-class-name="labelClass"
         :render-content="renderContent" @on-expand="onExpand" @on-node-click="onNodeClick"
         @on-node-mouseover="onNodeMouseOver" @on-node-mouseout="onNodeMouseOut" @on-node-drop="onNodeDrop"
         selected-class-name="selected-node" selected-key="selectedKey" />
@@ -43,15 +44,23 @@
             label: 'Label 2'
           }, {
             label: 'Label 3'
-          }]
+          }],
+          leftChildren: [
+            {
+              label: 'Label 4 left'
+            },
+            {
+              label: 'Label 5'
+            }
+          ]
         }
       }),
       methods: {
         labelClass(data) {
-          return "bg_node";
+          return "bg_node"
         },
         renderContent(h, data) {
-          return data.label;
+          return data.label
         },
         onExpand(e, data) {
           if ('expand' in data) {
@@ -73,19 +82,19 @@
           })
         },
         onNodeClick(e, data) {
-          console.log('CLICK', e);
-          this.$set(data, 'selectedKey', !data['selectedKey']);
+          console.log('CLICK', e)
+          this.$set(data, 'selectedKey', !data['selectedKey'])
         },
         onNodeMouseOver(e, data) {
-          console.log('MOUSE OVER', e, data);
+          console.log('MOUSE OVER', e, data)
         },
         onNodeMouseOut(e, data) {
-          console.log('MOUSE OUT', e);
+          console.log('MOUSE OUT', e)
         },
         onNodeDrop(e, drag, drop) {
-          console.log('DROP', e);
-          console.log('drag:', drag);
-          console.log('drop:', drop);
+          console.log('DROP', e)
+          console.log('drag:', drag)
+          console.log('drop:', drop)
         }
       }
     })
