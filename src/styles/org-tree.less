@@ -1,6 +1,6 @@
 .org-tree-container {
   display: inline-block;
-  padding: 15px;
+  padding: 15px 15px 15px 20px;
   background-color: #fff;
 }
 
@@ -41,6 +41,18 @@
     box-shadow: 0 1px 5px rgba(0, 0, 0, .15);
   }
 }
+.org-tree-node-label-left {
+  position: relative;
+  display: inline-block;
+
+  .org-tree-node-label-inner {
+    padding: 10px 15px;
+    text-align: center;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .15);
+  }
+}
+
 .org-tree-node-btn {
   position: absolute;
   top: 100%;
@@ -50,6 +62,52 @@
   z-index: 10;
   margin-left: -11px;
   margin-top: 9px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  box-shadow: 0 0 2px rgba(0, 0, 0, .15);
+  cursor: pointer;
+  transition: all .35s ease;
+
+  &:hover {
+    background-color: #e7e8e9;
+    transform: scale(1.15);
+  }
+
+  &:before, &:after {
+    content: '';
+    position: absolute;
+  }
+
+  &:before {
+    top: 50%;
+    left: 4px;
+    right: 4px;
+    height: 0;
+    border-top: 1px solid #ccc;
+  }
+
+  &:after {
+    top: 4px;
+    left: 50%;
+    bottom: 4px;
+    width: 0;
+    border-left: 1px solid #ccc;
+  }
+
+  &.expanded:after {
+    border: none;
+  }
+}
+
+.org-tree-node-left-btn {
+  position: absolute;
+  top: 50%;
+  left: -30px;
+  width: 20px;
+  height: 20px;
+  z-index: 10;
+  margin-top: -10px;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 50%;
@@ -117,6 +175,47 @@
   }
 
 }
+
+.org-tree-node-left {
+  padding-top: 20px;
+  display: table-cell;
+  vertical-align: top;
+
+  &.is-leaf, &.collapsed {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 19px;
+  }
+
+  &:before {
+    right: 50%;
+    border-right: 1px solid #ddd;
+  }
+
+  &:after {
+    right: 50%;
+    border-right: 1px solid #ddd;
+  }
+
+  &:not(:first-child):before,
+  &:not(:last-child):after {
+    border-top: 1px solid #ddd;
+  }
+}
+
+.is-leaf-left {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .collapsable .org-tree-node.collapsed {
   padding-bottom: 30px;
 
@@ -130,11 +229,31 @@
     border-right: 1px solid #ddd;
   }
 }
+.collapsable .org-tree-node-left.collapsed {
+  padding-bottom: 30px;
+
+  .org-tree-node-label:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 50%;
+    height: 20px;
+    border-left: 1px solid #ddd;
+  }
+}
 .org-tree > .org-tree-node {
   padding-top: 0;
 
   &:after {
     border-left: 0;
+  }
+}
+.org-tree > .org-tree-node-left {
+  padding-top: 0;
+
+  &:before {
+    border-right: 0;
   }
 }
 .org-tree-node-children {
@@ -149,6 +268,26 @@
     width: 0;
     height: 20px;
     border-left: 1px solid #ddd;
+  }
+
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+.org-tree-node-children-left {
+  padding-top: 20px;
+  display: table;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    width: 50%;
+    height: 20px;
+    border-right: 1px solid #ddd;
   }
 
   &:after {
@@ -185,6 +324,7 @@
       border-left: 0;
     }
 
+
     &:only-child:before {
       top: 1px;
       border-bottom: 1px solid #ddd;
@@ -206,7 +346,54 @@
 
   }
 
+  .org-tree-node-left {
+    display: table-cell;
+    float: none;
+    padding-top: 0;
+    padding-right: 20px;
+
+    &.is-leaf-left, &.collapsed {
+      padding-left: 10px;
+      padding-bottom: 10px;
+    }
+
+    &:before, &:after {
+      width: 19px;
+      height: 50%;
+    }
+
+    &:after {
+      top: 50%;
+      right: 0;
+      border-right: 1px solid #ddd;
+    }
+
+    &:only-child:after {
+      top: 1px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    &:not(:first-child):before,
+    &:not(:last-child):after {
+      border-top: 0;
+      border-right: 1px solid #ddd;
+    }
+
+    &:not(:only-child):after {
+      border-top: 1px solid #ddd;
+    }
+
+    .org-tree-node-inner {
+      display: table;
+    }
+  }
+
   .org-tree-node-label {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .org-tree-node-label-left {
     display: table-cell;
     vertical-align: middle;
   }
@@ -221,6 +408,21 @@
       height: 50%;
       border-right: 0;
       border-bottom: 1px solid #ddd;
+    }  
+}
+
+
+
+  &.collapsable .org-tree-node-left.collapsed {
+    padding-left: 30px;
+
+    .org-tree-node-label:after {
+      top: 0;
+      right: 100%;
+      width: 20px;
+      height: 50%;
+      border-left: 0;
+      border-bottom: 1px solid #ddd;
     }
   }
 
@@ -231,7 +433,18 @@
     margin-left: 9px;
   }
 
+  .org-tree-node-left-btn {
+    top: 50%;
+    right: 100%;
+    margin-top: -11px;
+    margin-right: 9px;
+  }
+
   & > .org-tree-node:only-child:before {
+    border-bottom: 0;
+  }
+
+  & > .org-tree-node-left:only-child:after {
     border-bottom: 0;
   }
 
@@ -260,5 +473,94 @@
     & > .org-tree-node {
       display: block;
     }
+  }  
+  
+  .org-tree-node-children-left {
+    display: table-cell;
+    padding-top: 0;
+    padding-right: 40px;
+    position: relative;  // 改为相对定位
+    right: 0;           // 移除绝对定位的right值
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: 20px;
+      height: 0;
+      border-top: 1px solid #ddd;
+    }
+
+    &:after {
+      display: none;
+    }
+
+    & > .org-tree-node-left {
+      display: block;
+      position: relative;
+      padding: 10px 0;  // 调整间距与右侧节点一致
+      
+      &:before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: -20px;
+        width: 20px;
+        height: 100%;
+        border-right: 1px solid #ddd;
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: -20px;
+        width: 20px;
+        height: 0;
+        border-top: 1px solid #ddd;
+      }
+
+      &:first-child:before {
+        height: 100%;
+        top: 50%;
+      }
+
+      &:last-child:before {
+        height: 50%;
+        bottom: 50%;
+        top: auto;
+      }
+
+      &:only-child:before {
+        display: none;
+      }
+    }
+  }
+
+  // 添加新的样式规则以确保居中
+  & > .org-tree-node {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & > .org-tree-node-children-left {
+      flex: 1;
+      text-align: right;
+    }
+
+    & > .org-tree-node-label {
+      flex: 0 0 auto;
+    }
+
+    & > .org-tree-node-children {
+      flex: 1;
+      text-align: left;
+    }
+  }
+  
+  .is-leaf-left {
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 }

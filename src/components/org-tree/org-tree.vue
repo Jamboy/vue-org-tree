@@ -1,6 +1,6 @@
 <template>
   <div class="org-tree-container">
-    <div class="org-tree" :class="{horizontal, collapsable}">
+    <div class="org-tree" :class="{ horizontal, collapsable }">
       <org-tree-node
         :data="data"
         :props="props"
@@ -23,8 +23,6 @@
     </div>
   </div>
 </template>
-
-
 
 <script>
 import render from "./node";
@@ -55,7 +53,9 @@ export default {
       default: () => ({
         label: "label",
         expand: "expand",
+        leftExpand: "leftExpand",
         children: "children",
+        leftChildren: "leftChildren",
       }),
     },
     horizontal: Boolean,
