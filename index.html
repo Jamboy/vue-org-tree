@@ -15,16 +15,24 @@
     .bg_node {
       cursor: pointer;
     }
+
+    .parent-ctn {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   </style>
 </head>
 
 <body>
   <div id="app">
-    <div>
+    <div class="parent-ctn">
       <vue2-org-tree :data="tree" expandAll horizontal collapsable :label-width="90" :label-class-name="labelClass"
         :render-content="renderContent" @on-expand="onExpand" @on-node-click="onNodeClick"
         @on-node-mouseover="onNodeMouseOver" @on-node-mouseout="onNodeMouseOut" @on-node-drop="onNodeDrop"
-        selected-class-name="selected-node" selected-key="selectedKey" />
+        selected-class-name="selected-node" selected-key="selectedKey" @on-left-expand="onLeftExpand" />
     </div>
   </div>
 
@@ -43,15 +51,45 @@
           }, {
             label: 'Label 2'
           }, {
-            label: 'Label 3'
-          }],
+            label: 'Label 3',
+            children: [
+              {
+                label: 'Label 3.2'
+              },
+              {
+                label: 'Label 3.3'
+              }
+            ]
+          },
+          ],
           leftChildren: [
             {
               label: 'Label 4 left'
             },
             {
               label: 'Label 5'
-            }
+            },
+            {
+              label: 'Label 6'
+            },
+            {
+              label: 'Label 7',
+            },
+            {
+              label: 'Label 7.1'
+            }, {
+              label: 'Label 5'
+            },
+            {
+              label: 'Label 6'
+            },
+            {
+              label: 'Label 7',
+            },
+            {
+              label: 'Label 7.1'
+            },
+
           ]
         }
       }),
@@ -95,7 +133,18 @@
           console.log('DROP', e)
           console.log('drag:', drag)
           console.log('drop:', drop)
-        }
+        },
+        onLeftExpand(e, data) {
+          if ('leftExpand' in data) {
+            data.leftExpand = !data.leftExpand
+            if (!data.leftExpand && data.leftChildren) {
+              this.collapse(data.leftChildren)
+            }
+          } else {
+            this.$set(data, 'leftExpand', true)
+          }
+
+        },
       }
     })
   </script>
